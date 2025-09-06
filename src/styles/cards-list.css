@@ -1,0 +1,19 @@
+.layout-card-cards-list {
+    border: 2px solid white;
+    width: 100vw;
+    height: 80vh;
+    margin: 40px 0 40px 40px;
+    padding: 20px;
+    border-radius: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: start;
+    align-content: start;
+    gap: 20px;
+}
+
+.card-img {
+    max-width: 150px;
+    max-height: 220px;
+}
