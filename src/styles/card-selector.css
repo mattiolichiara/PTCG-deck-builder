@@ -8,6 +8,14 @@
     overflow-y: auto;
 }
 
+.results-loading, .results-error {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 65vh;
+}
+
 .search-bar {
     display: flex;
     flex-direction: row;
@@ -44,4 +52,12 @@
     gap: 20px;
     padding: 20px;
 }
+
+.error-icon {
+    stroke: white;
+    height: 40px;
+    width: 40px;
+}
+
+
 

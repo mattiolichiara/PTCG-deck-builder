@@ -1,15 +1,16 @@
 import "../styles/card-selector.css";
-import {usePokemonCardsByName} from "../hooks/usePokemonAPI.js";
+import {usePokemonCardsbyName} from "../hooks/usePokemonAPI.js";
 import {useState} from "react";
+import ErrorIcon from "../assets/alert-cirlcle-error-svgrepo-com.svg?react";
 
 
 function CardSelector() {
-    const [searchQuery, setSearchQuery] = useState('');
+    const [searchedName, setSearchedName] = useState('');
     const [hasSearched, setHasSearched] = useState(false);
-    const { data, isLoading, error, refetch } = usePokemonCardsByName(searchQuery);
+    const { data, isLoading, error, refetch } = usePokemonCardsbyName(searchedName);
 
     const handleSearch = () => {
-        if (searchQuery.trim()) {
+        if (searchedName.trim()) {
             setHasSearched(true);
             refetch();
         }
@@ -21,13 +22,11 @@ function CardSelector() {
         }
     };
 
-    console.log(searchQuery);
-
     return (
         <div className="layout-card-selector">
 
             <div className="search-bar">
-                <input type="search" id="card-search" onKeyPress={handleKeyPress} onChange={(e) => setSearchQuery(e.target.value)}/>
+                <input type="search" id="card-search" onKeyPress={handleKeyPress} onChange={(e) => setSearchedName(e.target.value)}/>
                 <button className="tcgButton" onClick={handleSearch}>Search</button>
             </div>
 
@@ -38,15 +37,27 @@ function CardSelector() {
                 </div>
             )}
 
+            {hasSearched && error && (
+                <div className="results-error">
+                    <ErrorIcon className="error-icon" />
+                    <p>Couldn't find cards</p>
+                </div>
+            )}
+
             <div className="cards-container">
-                {data?.data?.map((card) => (
-                    <img
+                {data?.map((card) => {
+                    console.log(card);
+                    const imageUrl = `${card.image}/low.png`;
+
+                    return(
+                        <img
                         key={card.id}
-                        src={card.images.small}
+                        src={imageUrl}
                         alt={card.name}
                         className="card-image"
-                    />
-                ))}
+                        />
+                    )
+                })}
             </div>
         </div>
     )

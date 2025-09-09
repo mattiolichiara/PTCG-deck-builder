@@ -1,29 +1,69 @@
-import { useQuery } from '@tanstack/react-query';
-import { pokemonApi } from '../services/TCGApiService';
+import { tcgdexApi } from '../services/TCGApiService';
+import {useState} from "react";
 
-export const usePokemonCards = (searchParams = {}) => {
-    return useQuery({
-        queryKey: ['pokemon-cards', searchParams],
-        queryFn: () => pokemonApi.getAllCards(searchParams),
-        staleTime: 5 * 60 * 1000,
-    });
+export const usePokemonCardsbyName = (name) => {
+    const [data, setData] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState(null);
+
+    const fetchData = async () => {
+        setData(null);
+        setIsLoading(true);
+        setError(null);
+
+        try {
+            const cards = await tcgdexApi.getCardsByName(name);
+            setData(cards);
+        } catch (e) {
+            setError(e.message);
+        } finally {
+            setIsLoading(false);
+        }
+    }
+    return {data, isLoading, error, refetch: fetchData};
 };
 
-export const usePokemonSets = (searchParams = {}) => {
-    return useQuery({
-        queryKey: ['pokemon-sets', searchParams],
-        queryFn: () => pokemonApi.getSets(searchParams),
-        staleTime: 5 * 60 * 1000,
-    });
-};
+export const usePokemonAllCards = () => {
+    const [data, setData] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState(null);
 
-export const usePokemonCardsByName = (searchQuery = '', searchParams = {}) => {
-    return useQuery({
-        queryKey: ['pokemon-cards-by-name', searchQuery, searchParams],
-        queryFn: () => {
-            return pokemonApi.getCardsByName(searchQuery, searchParams);
-            },
-        staleTime: 5 * 60 * 1000,
-        enabled: false,
-    });
-};
+    const fetchData = async () => {
+        setData(null);
+        setIsLoading(true);
+        setError(null);
+
+        try {
+            const cards = await tcgdexApi.getAllCards();
+        } catch (e) {
+            setError(e.message);
+        } finally {
+            setIsLoading(false);
+        }
+    }
+    return {data, isLoading, error, refetch: fetchData};
+}
+
+export const useSets = async () => {
+    const [data, setData] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState(null);
+
+    const fetchData = async () => {
+        setData(null);
+        setIsLoading(true);
+        setError(null);
+
+        try {
+            const sets = await tcgdexApi.getSets();
+        } catch (e) {
+            setError(e.message);
+        } finally {
+            setIsLoading(false);
+        }
+    }
+    return {data, isLoading, error, refetch: fetchData};
+}
+
+
+

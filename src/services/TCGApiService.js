@@ -1,43 +1,50 @@
-import axios from 'axios';
+import TCGdex, {Query} from '@tcgdex/sdk'
 
-const API_KEY = import.meta.env.VITE_POKEMON_API_KEY;
-const BASE_URL = import.meta.env.VITE_API_URL;
+const tcgdex = new TCGdex('en');
 
-const api = axios.create({
-    baseURL: BASE_URL,
-    headers: {
-        'X-Api-Key': API_KEY,
-        'Content-Type': 'application/json',
+const set = await tcgdex.card.list(new Query().equal('name', ));
+
+export const tcgdexApi = {
+    getSets: async () => {
+        try {
+            return await tcgdex.set.list();
+        } catch (e) {
+            console.error("[SETS] Fetching Error", e);
+            throw new Error('Failed to fetch set.');
+        }
     },
-});
 
-api.interceptors.response.use(
-    (response) => response,
-    (error) => {
-        if (error.response?.status === 401) {
-            console.error('Invalid API Key');
+    getAllCards: async () => {
+        try {
+            return await tcgdex.card.list();
+        } catch (e) {
+            console.error("[ALL CARDS] Fetching Error", e);
+            throw new Error('Failed to fetch all cards.');
         }
-        if (error.response?.status === 500) {
-            console.error('Server Error');
+    },
+
+    getCardsByName: async (name) => {
+        try {
+            if (!name || name.trim() === '') {
+                throw new Error('Search query is required')
+            }
+
+            const cards = await tcgdex.card.list(
+                new Query().contains('name', name),
+            );
+
+            const tcgLiveCards = cards.filter(card =>
+                card.image && !card.image.includes('/tcgp/')
+            );
+
+            if (!tcgLiveCards || tcgLiveCards.length === 0) {
+                throw new Error('No cards found')
+            }
+
+            return tcgLiveCards;
+        } catch (e) {
+            console.error("[CARDS BY NAME] Fetching Error", e);
+            throw new Error('Failed to fetch cards by name.');
         }
-        if (error.response?.status === 400) {
-            console.error('Bad Request');
-        }
-        return Promise.reject(error);
     }
-);
-
-export const pokemonApi = {
-    getSets: (params = {}) =>
-        api.get('/sets', { params }).then(response => response.data),
-
-    getAllCards: (params = {}) =>
-        api.get(`/cards?orderBy=-set.releaseDate&pageSize=250&${new URLSearchParams(params).toString()}`)
-            .then(response => response.data),
-
-    getCardsByName: (searchQuery, params = {}) =>
-        api.get(`/cards?q=name:${encodeURIComponent(searchQuery)}*&orderBy=-set.releaseDate&pageSize=250&${new URLSearchParams(params).toString()}`)
-            .then(response => response.data),
 };
-
-export default pokemonApi;
