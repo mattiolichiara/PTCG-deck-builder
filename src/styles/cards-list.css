@@ -1,19 +1,47 @@
-.layout-card-cards-list {
+.layout-card-list, .layout-card-loading {
     border: 2px solid white;
     width: 100vw;
     height: 80vh;
     margin: 40px 0 40px 40px;
     padding: 20px;
     border-radius: 20px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    align-items: start;
-    align-content: start;
-    gap: 20px;
 }
 
-.card-img {
-    max-width: 150px;
-    max-height: 220px;
+.layout-card-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    justify-items: center;
+    overflow-y: auto;
+}
+
+.layout-card-loading {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 200px;
+}
+
+.cards-imgs {
+    width: 150px;
+    height: 220px;
+    transition: transform 0.2s ease;
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 2px solid grey;
+    border-top: 4px solid #f3f3f3;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
 }

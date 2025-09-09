@@ -30,6 +30,14 @@ api.interceptors.response.use(
 export const pokemonApi = {
     getSets: (params = {}) =>
         api.get('/sets', { params }).then(response => response.data),
+
+    getAllCards: (params = {}) =>
+        api.get(`/cards?orderBy=-set.releaseDate&pageSize=250&${new URLSearchParams(params).toString()}`)
+            .then(response => response.data),
+
+    getCardsByName: (searchQuery, params = {}) =>
+        api.get(`/cards?q=name:${encodeURIComponent(searchQuery)}*&orderBy=-set.releaseDate&pageSize=250&${new URLSearchParams(params).toString()}`)
+            .then(response => response.data),
 };
 
 export default pokemonApi;

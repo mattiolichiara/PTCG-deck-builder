@@ -6,7 +6,6 @@ import CardList from './components/CardList.jsx';
 import CardSelector from "./components/CardSelector.jsx";
 
 function App() {
-  // const [count, setCount] = useState(0)
 
   return (
     <div className="App">
