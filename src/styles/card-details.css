@@ -1,0 +1,32 @@
+.card-details-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    background-color: rgba(0,0,0,0.7);
+}
+
+.card-detail-image {
+    max-width: 90%;
+    height: auto;
+    box-shadow: 0 0 100px 1px #AF95C8;
+}
+
+.tooltip {
+    position: fixed;
+    pointer-events: none;
+    background-color: rgba(30, 30, 30, 0.9);
+    color: white;
+    padding: 15px 10px;
+    border-radius: 6px;
+    font-size: 14px;
+    z-index: 10000;
+    transition: transform 0.1s ease, opacity 0.1s ease;
+    white-space: pre-line;
+    line-height: 0.8;
+}

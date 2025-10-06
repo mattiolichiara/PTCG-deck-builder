@@ -1,10 +1,12 @@
 .layout-card-selector {
-    border: 2px solid white;
+    border: 2px solid #404548;
     margin: 40px 40px 40px 40px;
     padding: 20px;
-    border-radius: 20px;
+    border-radius: 10px;
     width: 570px;
     height: 80vh;
+    background-color: #1b1e1f;
+    box-shadow: 0 0 10px 1px #AF95C8;
 }
 
 .results-loading, .results-error {
@@ -21,20 +23,23 @@
     justify-content: center;
     align-items: stretch;
     gap: 20px;
-    padding: 10px 20px;
+    padding-bottom: 20px;
 }
 
 .tcgButton {
-    border: 1px solid white;
+    border: 2px solid #404548;
     padding: 10px 20px;
+    font-weight: bold;
+    background-color: #232628;
 }
 
 #card-search {
     flex: 1;
     padding: 10px;
     font-size: 100%;
-    border: 1px solid white;
+    border: 2px solid #404548;
     border-radius: 10px;
+    background-color: #232628;
 }
 
 .card-image {

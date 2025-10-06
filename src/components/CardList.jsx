@@ -2,6 +2,8 @@ import {useEffect, useState} from "react";
 import { FaTrash } from "react-icons/fa";
 import "../styles/cards-list.css";
 import {useBeforeUnload} from "react-router-dom";
+import {usePokemonCardbyId} from "../hooks/usePokemonAPI.js";
+import CardDetails from "./CardDetails.jsx";
 
 const MAX_DUPLICATES_PTCG = 4;
 const MAX_DECK_SIZE_PTCG = 60;
@@ -11,6 +13,19 @@ const MAX_DECK_SIZE_PTCGP = 20;
 function CardsList({selected, addCard}) {
     const [deckCards, setDeckCards] = useState([]);
     const [isDirty, setIsDirty] = useState(false);
+    const [selectedCard, setSelectedCard] = useState(null);
+    const { data: cardDetails, isLoading: isLoadingDetails, error: errorDetails, refetch: refetchCardById } = usePokemonCardbyId();
+
+    const getCardDetails = (id) => {
+        refetchCardById(id);
+    };
+
+    useEffect(() => {
+        if (cardDetails) {
+            setSelectedCard(cardDetails);
+            console.log("Selected Card:", cardDetails);
+        }
+    }, [cardDetails]);
 
     const emptyDeck = () => {
         setDeckCards([]);
@@ -109,6 +124,10 @@ function CardsList({selected, addCard}) {
     }, [selected]);
 
     useEffect(() => {
+        getDeckSize(deckCards) === 0 ? setIsDirty(false) : setIsDirty(true);
+    }, [deckCards]);
+
+    useEffect(() => {
         const listener = (e) => addCardToDeck(e.card);
         window.addEventListener("add-card", listener);
         return () => window.removeEventListener("add-card", listener);
@@ -130,9 +149,11 @@ function CardsList({selected, addCard}) {
                             src={`${card.image}/low.png`}
                             alt={card.name}
                             className="card-image"
-                            style={{ transform: "none", transition: "none" }}
+                            // style={{ transform: "none", transition: "none" }}
                             draggable={true}
                             onDragEnd={(e) => handleCardRemovalDragEnd(card.id, e)}
+                            onClick={() => getCardDetails(card.id)}
+                            onContextMenu={(e) => e.preventDefault()}
                         />
 
                         <div className="card-counter">
@@ -143,6 +164,8 @@ function CardsList({selected, addCard}) {
 
                     </div>
                 ))}
+
+                <CardDetails card={selectedCard} onClose={() => setSelectedCard(null)} selected={selected} />
             </div>
     );
 }

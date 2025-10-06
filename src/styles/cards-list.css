@@ -1,10 +1,10 @@
 .layout-card-list {
-    border: 2px solid white;
+    border: 2px solid #404548;
     width: 100%;
     height: 80vh;
     margin: 40px 0 40px 40px;
     padding: 0 20px 20px 20px;
-    border-radius: 20px;
+    border-radius: 10px;
     display: flex;
     flex-wrap: wrap;
     gap: 30px;
@@ -12,6 +12,8 @@
     justify-items: flex-start;
     align-content: flex-start;
     overflow-y: auto;
+    background-color: #1b1e1f;
+    box-shadow: 0 0 10px 1px #AF95C8;
 }
 
 .cards-imgs {
@@ -41,13 +43,14 @@
 .card-counter button {
     font-size: 15px;
     font-weight: bold;
+    background-color: transparent;
 }
 
 #deck-size {
     position: sticky;
     top: 0;
     z-index: 10;
-    background-color: #181a1b;
+    background-color: #1b1e1f;
     width: 100%;
     flex-direction: row;
     display: flex;
@@ -55,6 +58,7 @@
     font-weight: bold;
     margin-bottom: 5px;
     padding: 20px 0 20px 0;
+    color: #F5F5F5;
 }
 
 #deck-handling {

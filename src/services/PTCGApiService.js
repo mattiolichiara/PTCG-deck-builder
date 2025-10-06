@@ -66,12 +66,11 @@ export const ptcgdexApi = {
 
             console.log("[API] Fetching cards by id");
 
-            // const url = `https://api.tcgdex.net/v2/en/cards/${id}`;
-            // const response = await fetch(url);
-            // if (!response.ok) throw new Error('Network Error.');
-            //
-            // return await response.json();
-            return await tcgdex.card.get(id);
+            const url = `https://api.tcgdex.net/v2/en/cards/${id}`;
+            const response = await fetch(url);
+            if (!response.ok) throw new Error('Network Error.');
+
+            return await response.json();
         } catch (e) {
             console.error("[CARD BY ID] Fetching Error", e);
             throw new Error('Failed to fetch card by ID.');

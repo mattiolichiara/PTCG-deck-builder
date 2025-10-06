@@ -12,11 +12,16 @@ function CardSelector({selected}) {
     const { data, isLoading, error, refetch: refetchCardsbyName, reset } = usePokemonCardsbyName();
     const { data: cardDetails, isLoading: isLoadingDetails, error: errorDetails, refetch: refetchCardById } = usePokemonCardbyId();
 
-    const getCardDetails = async (card) => {
-        setSelectedCard(card);
-        console.log(`Selected Card: ${card}`);
-        refetchCardById(card.id);
-    }
+    const getCardDetails = (id) => {
+        refetchCardById(id);
+    };
+
+    useEffect(() => {
+        if (cardDetails) {
+            setSelectedCard(cardDetails);
+            console.log("Selected Card:", cardDetails);
+        }
+    }, [cardDetails]);
 
     const handleSearch = () => {
         if (searchedName.trim()) {
@@ -81,13 +86,16 @@ function CardSelector({selected}) {
                         draggable={true}
                         onDragStart={(e) => e.dataTransfer.setData("application/json", JSON.stringify(card))}
                         onClick={() => addCardOnClick(card)}
-                        // onClick={() => getCardDetails(card)}
+                        onContextMenu={(e) => {
+                            e.preventDefault();
+                            getCardDetails(card.id);
+                        }}
                         />
                     )
                 })}
             </div>
 
-            <CardDetails card={selectedCard} onClose={() => setSelectedCard(null)} />
+            <CardDetails card={selectedCard} onClose={() => setSelectedCard(null)} selected={selected} />
         </div>
     )
 }
