@@ -120,6 +120,12 @@ function CardsList({selected, addCard}) {
     );
 
     useEffect(() => {
+        if (isDirty) {
+            const confirmLeave = window.confirm(
+                "Changes that you made may not be saved. Continue?"
+            );
+            if (!confirmLeave) return;
+        }
         emptyDeck();
     }, [selected]);
 
