@@ -25,7 +25,8 @@ body {
   justify-content: center;
   background-color: #242628;
   min-width: 100vw;
-  max-height: 80px;
+  min-height: 80px;
+  max-height: 100px;
   box-shadow:
           25px 0 25px -20px rgba(120, 120, 120, 0.3),
           -25px 0 25px -20px rgba(120, 120, 120, 0.3);
@@ -39,8 +40,8 @@ body {
   padding: 20px 50px;
   gap: 10px;
   background-color: #181a1b;
-  width: 100px;
-  height: 40px;
+  width: 180px;
+  height: 100px;
   box-shadow:
           25px 0 25px -20px rgba(120, 120, 120, 0.3),
           -25px 0 25px -20px rgba(120, 120, 120, 0.3);
@@ -62,6 +63,14 @@ body {
 
 .ptcg-title:hover {
   background-color: rgba(25, 140, 125, 0.9);
+}
+
+.ptcg-title.selected {
+  background-color: rgba(25, 140, 125, 0.9);
+}
+
+.ptcgp-title.selected {
+  background-color: rgba(25, 25, 255, 0.7);
 }
 
 .ptcgp-logo {

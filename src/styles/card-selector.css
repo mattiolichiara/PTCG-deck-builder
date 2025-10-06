@@ -5,7 +5,6 @@
     border-radius: 20px;
     width: 570px;
     height: 80vh;
-    overflow-y: auto;
 }
 
 .results-loading, .results-error {
@@ -34,23 +33,34 @@
     flex: 1;
     padding: 10px;
     font-size: 100%;
+    border: 1px solid white;
+    border-radius: 10px;
 }
 
 .card-image {
-    max-width: 150px;
-    max-height: 220px;
-    transition: transform 0.2s ease;
+    width: 100%;
+    height: auto;
+    max-width: 200px;
+}
+
+.card-image:hover {
+    transform: scale(1.20);
+    z-index: 999999999;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: grab;
+}
+
+.card-image:active {
+    cursor: grabbing;
 }
 
 .cards-container {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: start;
-    justify-items: start;
-    justify-content: start;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
     gap: 20px;
     padding: 20px;
+    max-height: calc(80vh - 110px);
+    overflow-y: auto;
 }
 
 .error-icon {

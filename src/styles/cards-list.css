@@ -1,47 +1,67 @@
-.layout-card-list, .layout-card-loading {
+.layout-card-list {
     border: 2px solid white;
-    width: 100vw;
+    width: 100%;
     height: 80vh;
     margin: 40px 0 40px 40px;
-    padding: 20px;
+    padding: 0 20px 20px 20px;
     border-radius: 20px;
-}
-
-.layout-card-list {
     display: flex;
     flex-wrap: wrap;
-    gap: 15px;
+    gap: 30px;
     flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    justify-items: center;
+    justify-items: flex-start;
+    align-content: flex-start;
     overflow-y: auto;
 }
 
-.layout-card-loading {
+.cards-imgs {
+    width: 100%;
+    height: auto;
+    max-width: none;
+}
+
+.card-wrapper {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    flex: 1 1 130px;
+    max-width: 130px;
+}
+
+.card-counter {
+    display: flex;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
-    text-align: center;
-    min-height: 200px;
+    gap: 20px;
+    font-weight: bold;
+    font-size: 15px;
 }
 
-.cards-imgs {
-    width: 150px;
-    height: 220px;
-    transition: transform 0.2s ease;
+.card-counter button {
+    font-size: 15px;
+    font-weight: bold;
 }
 
-.spinner {
-    width: 40px;
-    height: 40px;
-    border: 2px solid grey;
-    border-top: 4px solid #f3f3f3;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
+#deck-size {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background-color: #181a1b;
+    width: 100%;
+    flex-direction: row;
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    margin-bottom: 5px;
+    padding: 20px 0 20px 0;
 }
 
-@keyframes spin {
-    to { transform: rotate(360deg); }
+#deck-handling {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    font-weight: bold;
 }

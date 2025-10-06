@@ -1,18 +1,28 @@
 import "../styles/card-selector.css";
-import {usePokemonCardsbyName} from "../hooks/usePokemonAPI.js";
-import {useState} from "react";
+import {usePokemonCardbyId, usePokemonCardsbyName} from "../hooks/usePokemonAPI.js";
+import {useState, useEffect} from "react";
+import CardDetails from "./CardDetails.jsx";
 import ErrorIcon from "../assets/alert-cirlcle-error-svgrepo-com.svg?react";
 
 
-function CardSelector() {
+function CardSelector({selected}) {
     const [searchedName, setSearchedName] = useState('');
     const [hasSearched, setHasSearched] = useState(false);
-    const { data, isLoading, error, refetch } = usePokemonCardsbyName(searchedName);
+    const [selectedCard, setSelectedCard] = useState(null);
+    const { data, isLoading, error, refetch: refetchCardsbyName, reset } = usePokemonCardsbyName();
+    const { data: cardDetails, isLoading: isLoadingDetails, error: errorDetails, refetch: refetchCardById } = usePokemonCardbyId();
+
+    const getCardDetails = async (card) => {
+        setSelectedCard(card);
+        console.log(`Selected Card: ${card}`);
+        refetchCardById(card.id);
+    }
 
     const handleSearch = () => {
         if (searchedName.trim()) {
             setHasSearched(true);
-            refetch();
+            console.log(`Searched Name: ${searchedName}`);
+            refetchCardsbyName(searchedName, selected);
         }
     };
 
@@ -22,11 +32,24 @@ function CardSelector() {
         }
     };
 
+    const addCardOnClick = (card) => {
+        const dropEvent = new Event("add-card");
+        dropEvent.card = card;
+        window.dispatchEvent(dropEvent);
+    };
+
+    useEffect(() => {
+        setSearchedName("");
+        setHasSearched(false);
+        setSelectedCard(null);
+        reset();
+    }, [selected]);
+
     return (
         <div className="layout-card-selector">
 
             <div className="search-bar">
-                <input type="search" id="card-search" onKeyPress={handleKeyPress} onChange={(e) => setSearchedName(e.target.value)}/>
+                <input type="search" id="card-search" value={searchedName} onKeyDown={handleKeyPress} onChange={(e) => setSearchedName(e.target.value)}/>
                 <button className="tcgButton" onClick={handleSearch}>Search</button>
             </div>
 
@@ -55,10 +78,16 @@ function CardSelector() {
                         src={imageUrl}
                         alt={card.name}
                         className="card-image"
+                        draggable={true}
+                        onDragStart={(e) => e.dataTransfer.setData("application/json", JSON.stringify(card))}
+                        onClick={() => addCardOnClick(card)}
+                        // onClick={() => getCardDetails(card)}
                         />
                     )
                 })}
             </div>
+
+            <CardDetails card={selectedCard} onClose={() => setSelectedCard(null)} />
         </div>
     )
 }
