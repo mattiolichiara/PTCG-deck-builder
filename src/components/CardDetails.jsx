@@ -118,7 +118,7 @@ function CardDetails({card, onClose, selected}) {
 
 
     const handleMouseLeave = () => {
-        setTooltip({ ...tooltip, text: "" });
+        setTooltip({x: 0, y: 0, text: ""});
     };
 
     return (

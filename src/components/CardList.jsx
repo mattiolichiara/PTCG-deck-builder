@@ -153,7 +153,10 @@ function CardsList({selected, addCard}) {
                             draggable={true}
                             onDragEnd={(e) => handleCardRemovalDragEnd(card.id, e)}
                             onClick={() => getCardDetails(card.id)}
-                            onContextMenu={(e) => e.preventDefault()}
+                            onContextMenu={(e) => {
+                                e.preventDefault();
+                                removeCardFromDeck(card.id);
+                            }}
                         />
 
                         <div className="card-counter">
