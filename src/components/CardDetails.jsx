@@ -11,10 +11,13 @@ import fire from '../assets/fire_energy.png';
 import grass from '../assets/grass_energy.png';
 import steel from '../assets/steel_energy.png';
 import water from '../assets/water_energy.png';
+import {usePokemonSetById} from "../hooks/usePokemonAPI.js";
 
 function CardDetails({card, onClose, selected}) {
     // const [visible, setVisible] = useState(false);
     const [tooltip, setTooltip] = useState({ x: 0, y: 0, text: "" });
+    const [cardSet, setCardSet] = useState(null);
+    const {data: setDetails, isLoading: isLoadingDetails, error: errorDetails, refetch: refetchSetById} = usePokemonSetById();
 
     const energyIcons = {
         Colorless: colorless,
@@ -30,9 +33,6 @@ function CardDetails({card, onClose, selected}) {
         Water: water,
     };
 
-    if(!card) return null;
-    const imageUrl = `${card.image}/high.jpg`;
-
     // useEffect(() => {
     //     if (card) {
     //         setVisible(true);
@@ -43,6 +43,17 @@ function CardDetails({card, onClose, selected}) {
     //     setVisible(false);
     //     setTimeout(() => onClose(), 300);
     // };
+
+    useEffect(() => {
+        if (card?.set?.id) {
+            refetchSetById(card.set.id).then((response) => {
+                if (response) setCardSet(response);
+            });
+        }
+    }, [card]);
+
+    if(!card) return null;
+    const imageUrl = `${card.image}/high.jpg`;
 
     const handleMouseMove = (e) => {
         const isPokemon = card.category === "Pokemon";
@@ -83,6 +94,8 @@ function CardDetails({card, onClose, selected}) {
             ))
             : <div>N/A</div>;
 
+        const year = cardSet.releaseDate ? cardSet.releaseDate.split("-")[0] : "N/A";
+
         setTooltip({
             x: e.clientX + 15,
             y: e.clientY + 15,
@@ -91,6 +104,8 @@ function CardDetails({card, onClose, selected}) {
                     <div><strong>Name:</strong> {card.name ?? "N/A"}</div><br/>
                     <div><strong>Category:</strong> {card.category ?? "N/A"}</div><br/>
                     <div><strong>Expansion:</strong> {card.set?.name ?? "N/A"}</div><br/>
+                    <div><strong>Series:</strong> {cardSet.serie?.name ?? "N/A"}</div><br/>
+                    <div><strong>Year:</strong> {year}</div><br/>
                     <div><strong>Rarity:</strong> {card.rarity ?? "N/A"}</div><br/>
                     <div><strong>Illustrator:</strong> {card.illustrator ?? "N/A"}</div><br/><br/>
                     {isPokemon && (
@@ -116,7 +131,6 @@ function CardDetails({card, onClose, selected}) {
         });
     };
 
-
     const handleMouseLeave = () => {
         setTooltip({x: 0, y: 0, text: ""});
     };
@@ -124,7 +138,7 @@ function CardDetails({card, onClose, selected}) {
     return (
         <div className="card-details-container" onClick={onClose}>
                 <div className="card-content" onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave}>
-                    <img className="card-detail-image" src={imageUrl} alt={card.name} />
+                    <img className="card-detail-image" src={imageUrl} alt={card.name}/>
                     {tooltip.jsx && (
                         <div
                             className="tooltip"

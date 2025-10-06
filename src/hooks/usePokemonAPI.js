@@ -42,7 +42,7 @@ export const usePokemonCardbyId = () => {
         setError(null);
 
         try {
-            console.log(`ID: ${id}`);
+            console.log(`CARD ID: ${id}`);
             const card = await ptcgdexApi.getCardById(id);
             setData(card);
             return card;
@@ -52,6 +52,33 @@ export const usePokemonCardbyId = () => {
             setIsLoading(false);
         }
     }
+    return { data, isLoading, error, refetch: fetchData };
+}
+
+export const usePokemonSetById = () => {
+    const [data, setData] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState(null);
+
+    const fetchData = async (id) => {
+        if(!id) return;
+
+        setData(null);
+        setIsLoading(true);
+        setError(null);
+
+        try {
+            console.log(`SET ID: ${id}`);
+            const set = await ptcgdexApi.getSetById(id);
+            setData(set);
+            return set;
+        } catch (e) {
+            setError(e.message);
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
     return { data, isLoading, error, refetch: fetchData };
 }
 

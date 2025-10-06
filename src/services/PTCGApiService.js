@@ -75,5 +75,25 @@ export const ptcgdexApi = {
             console.error("[CARD BY ID] Fetching Error", e);
             throw new Error('Failed to fetch card by ID.');
         }
+    },
+
+    getSetById: async (id) => {
+        try {
+            if (!id || id.trim() === '') {
+                throw new Error('ID is required')
+            }
+
+            console.log("[API] Fetching sets by id");
+
+            const url = `https://api.tcgdex.net/v2/en/sets/${id}`;
+            const response = await fetch(url);
+
+            if (!response.ok) throw new Error('Network Error.');
+
+            return await response.json();
+        } catch(e) {
+            console.error("[SET BY ID] Fetching Error", e);
+            throw new Error('Failed to fetch set by ID.');
+        }
     }
 };
