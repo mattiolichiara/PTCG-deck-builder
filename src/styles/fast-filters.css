@@ -1,0 +1,32 @@
+.fast-filters {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 5px;
+}
+
+.fast-filter-button {
+    border: none;
+    background-color: #232628;
+    font-size: 13px;
+}
+
+.common-fast-filters {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    margin: 5px 0;
+}
+
+.ptcg-fast-filters {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    margin: 5px 0;
+}

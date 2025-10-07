@@ -3,12 +3,16 @@ import {usePokemonCardbyId, usePokemonCardsbyName} from "../hooks/usePokemonAPI.
 import {useState, useEffect} from "react";
 import CardDetails from "./CardDetails.jsx";
 import ErrorIcon from "../assets/alert-cirlcle-error-svgrepo-com.svg?react";
+import {MdKeyboardArrowDown, MdKeyboardArrowUp} from "react-icons/md";
+import {FaFilter} from "react-icons/fa";
+import FastFilters from "./FastFilters.jsx";
 
 
 function CardSelector({selected}) {
     const [searchedName, setSearchedName] = useState('');
     const [hasSearched, setHasSearched] = useState(false);
     const [selectedCard, setSelectedCard] = useState(null);
+    const [searchFilterToggled, setSearchFilterToggled] = useState(false);
     const { data, isLoading, error, refetch: refetchCardsbyName, reset } = usePokemonCardsbyName();
     const { data: cardDetails, isLoading: isLoadingDetails, error: errorDetails, refetch: refetchCardById } = usePokemonCardbyId();
 
@@ -47,6 +51,7 @@ function CardSelector({selected}) {
         setSearchedName("");
         setHasSearched(false);
         setSelectedCard(null);
+        setSearchFilterToggled(null);
         reset();
     }, [selected]);
 
@@ -57,6 +62,19 @@ function CardSelector({selected}) {
                 <input type="search" id="card-search" value={searchedName} onKeyDown={handleKeyPress} onChange={(e) => setSearchedName(e.target.value)}/>
                 <button className="tcgButton" onClick={handleSearch}>Search</button>
             </div>
+
+            <div className="filters">
+                <button className="filter-button" onClick={() => setSearchFilterToggled(!searchFilterToggled)}>
+                    <div>Filter</div>
+                    <div className="icon"> {searchFilterToggled ? <MdKeyboardArrowUp size={20} /> : <MdKeyboardArrowDown size={20} />} </div>
+                </button>
+                <button className="advanced-search-button"> <FaFilter size={20} /> </button>
+                <button className="clear-button">Clear</button>
+            </div>
+
+            {searchFilterToggled && (
+                <FastFilters selected={selected} ></FastFilters>
+            )}
 
             {hasSearched && isLoading && (
                 <div className="results-loading">
